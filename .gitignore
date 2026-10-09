@@ -1,0 +1,13 @@
+# Material de origem (rascunhos pessoais)
+/*.md
+!/README.md
+/github_profile_photo.jpg
+
+# Prints originais (versões otimizadas ficam em site/assets/projetos)
+/site/imagens/
+
+# Ferramentas locais
+/.claude/
+node_modules/
+.DS_Store
+Thumbs.db
