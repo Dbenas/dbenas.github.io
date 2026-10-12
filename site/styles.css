@@ -94,7 +94,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .topbar.scrolled { border-bottom-color: var(--line); }
 .topbar-in { display: flex; align-items: center; gap: 12px; height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; }
-.brand img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line-2); }
 .brand-name { white-space: nowrap; font: 700 15.5px var(--f-head); letter-spacing: -.01em; }
 .brand-status { display: inline-flex; align-items: center; gap: 7px; padding: 3px 10px; border: 1px solid var(--line-2); border-radius: 99px; font: 500 12px var(--f-mono); color: var(--soft); background: var(--surface); }
 .nav { display: flex; gap: 28px; margin-right: 16px; }
@@ -325,8 +324,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .topbar .btn-sm { display: none; }
   .hero-in { padding-top: 72px; padding-bottom: 88px; }
   .brand { gap: 8px; }
-  .brand img { width: 30px; height: 30px; }
-  .brand-name { font-size: 14.5px; }
+    .brand-name { font-size: 14.5px; }
   .brand-status { padding: 2px 8px; font-size: 11px; gap: 6px; }
   .hero h1 { font-size: clamp(40px, 12vw, 54px); }
   .hero-ctas .btn { width: 100%; }
