@@ -17,7 +17,7 @@ npm run dev
 ## Publicar
 
 - **Vercel / Netlify:** arraste a pasta `site` ou aponte o projeto para ela.
-- **GitHub Pages:** suba o conteúdo de `site` num repositório e ative Pages na branch `main`.
+- **GitHub Pages:** já configurado em `.github/workflows/pages.yml`. Cada push na `main` publica a pasta `site` em https://dbenas.github.io (repositório `dbenas.github.io`, Settings → Pages → Source: GitHub Actions).
 
 ## Adicionar um projeto
 
