@@ -88,13 +88,36 @@
       tech: ["Categorização canônica por regras (regex) sobre texto livre, contando cada resposta uma vez por categoria", "Leitura tolerante de colunas e tratamento de planilha real: células mescladas, limpeza e seleção automática da aba", "Gráficos próprios em SVG/JS: barras, rosca, Sankey interativo e a “trilha do dado” em linha do tempo serpenteada", "Gerador Python + template HTML com saída 100% autocontida; contagens validadas com Python e Node.js antes de publicar"],
       stack: ["Python", "pandas", "Regex", "JavaScript", "SVG", "Power Automate", "Task Scheduler"],
     },
+    {
+      id: "auditoria", group: "dados", name: "Auditoria de Prontuários", kind: "Saúde pública · Atenção Primária", live: true, liveLabel: "Entregue · Fase 1", url: "painel · auditoria emulti",
+      art: "bars", note: "Imagem ilustrativa: os dados de saúde são sigilosos e não são exibidos.",
+      short: "Auditoria dos atendimentos da equipe multiprofissional em mais de 30 Unidades Básicas de Saúde, da extração via API ao painel de metas em Power BI.",
+      tags: ["Python", "pandas", "API REST", "Power BI"],
+      nums: [["30+", "unidades de saúde cobertas"], ["615", "atendimentos auditados"], ["8% a 111%", "variação da meta entre unidades"]],
+      challenge: "Uma organização social de saúde precisava saber se os atendimentos da equipe multiprofissional estavam registrados corretamente em prontuário e se cada unidade cumpria a meta pactuada. A conferência era manual e fragmentada.",
+      solution: "Conduzi reuniões com a coordenação e as equipes técnicas para definir regras de negócio e o dicionário de dados, extraí os registros por API, tratei e analisei tudo em Python e entreguei um painel em Power BI com a visão por unidade, profissional e tipo de atendimento.",
+      results: ["Visão única e auditável da produção da equipe multiprofissional", "Unidades críticas e acima da meta identificadas em segundos", "Categorias profissionais sub-representadas evidenciadas", "Regras de negócio documentadas, base para as próximas fases"],
+      tech: ["Extração via API REST com Python (requests), sem planilhas intermediárias", "Limpeza e padronização de profissionais, tipos de atendimento e unidades com pandas", "Validação de consistência: totais por categoria e por tipo fecham com o total geral", "Modelo de dados e medidas DAX no Power BI, com filtros por unidade, período, ano e mês"],
+      stack: ["Python", "pandas", "requests", "API REST", "Power BI", "DAX"],
+    },
   ];
 
   const ribbon = (x1, a1, b1, x2, a2, b2, cls) => {
     const m = (x1 + x2) / 2;
     return `<path class="rb ${cls}" d="M${x1} ${a1} C${m} ${a1} ${m} ${a2} ${x2} ${a2} L${x2} ${b2} C${m} ${b2} ${m} ${b1} ${x1} ${b1}Z"/>`;
   };
+  const barsArt = () => {
+    const ends = [600, 575, 520, 470, 410, 340, 250, 150], meta = 560;
+    const rows = ends.map((x, i) => {
+      const y = 38 + i * 34;
+      return `<text x="98" y="${y + 15}" text-anchor="end">UBS ${String.fromCharCode(65 + i)}</text><rect class="bar${x >= meta ? " a" : ""}" x="110" y="${y}" width="${x - 110}" height="22" rx="3"/>`;
+    }).join("");
+    return `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração de painel: percentual da meta por unidade de saúde">
+      ${rows}<line class="meta" x1="${meta}" y1="26" x2="${meta}" y2="318"/><text x="${meta}" y="18" text-anchor="middle">META</text>
+      <text x="350" y="340" text-anchor="middle">% DA META POR UNIDADE</text></svg>`;
+  };
   const ART = {
+    bars: barsArt(),
     sankey: `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração de linhagem de dados: origens, tratamentos e destinos">
       ${ribbon(84, 60, 100, 343, 70, 110, "a")}${ribbon(84, 100, 130, 343, 190, 220, "")}${ribbon(84, 150, 200, 343, 110, 160, "")}${ribbon(84, 220, 300, 343, 220, 300, "b")}
       ${ribbon(357, 70, 120, 616, 50, 100, "a")}${ribbon(357, 120, 160, 616, 130, 175, "")}${ribbon(357, 190, 250, 616, 175, 220, "b")}${ribbon(357, 250, 300, 616, 240, 290, "a")}
@@ -114,8 +137,8 @@
     ? `<span class="status"><i class="dot" aria-hidden="true"></i>${statusLabel(p)}</span>`
     : `<span class="status dev">${p.status}</span>`;
 
-  const card = (p, i) => `
-    <button class="proj reveal${i === 0 ? " featured" : ""}" type="button" data-id="${p.id}" aria-haspopup="dialog">
+  const card = (p, i, list) => `
+    <button class="proj reveal${i === 0 && list.length % 2 ? " featured" : ""}" type="button" data-id="${p.id}" aria-haspopup="dialog">
       ${shot(p, false)}
       <span class="proj-info">
         <span class="proj-top"><span>${p.kind}</span>${statusHtml(p)}</span>

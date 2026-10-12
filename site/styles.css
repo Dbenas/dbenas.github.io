@@ -368,3 +368,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .art text { font: 500 11px var(--f-mono); letter-spacing: .12em; fill: var(--faint); }
 .proj:hover .art .rb.a { opacity: .7; }
 .shot-note { margin-top: 10px; font: 400 12.5px var(--f-mono); color: var(--faint); }
+.art .bar { fill: var(--text); opacity: .2; }
+.art .bar.a { fill: var(--accent); opacity: .75; }
+.art .meta { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .6; }
