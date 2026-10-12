@@ -42,7 +42,7 @@
       link: ["Visitar galvapro.space", "https://galvapro.space"],
     },
     {
-      id: "reportb", name: "ReportB", kind: "Engenharia de dados de mídia paga", status: "Em evolução", url: "reportb · painel",
+      id: "reportb", name: "ReportB", kind: "Engenharia de dados de mídia paga", live: true, url: "reportb · painel",
       short: "Pipeline que une Meta Ads e Google Ads num só modelo de dados, com um agente de IA que analisa e ajusta campanhas.",
       tags: ["Python", "PostgreSQL", "Ads APIs", "Agente IA"],
       nums: [["2", "plataformas num modelo único"], ["~196/mês", "conversões falsas encontradas"], ["100%", "das alterações com confirmação"]],
@@ -65,7 +65,7 @@
       link: ["Visitar turinpdv.com.br", "https://www.turinpdv.com.br"],
     },
     {
-      id: "curadoria", name: "Curadoria", kind: "IA para seleção de executivos", status: "Case técnico", url: "curadoria · executive search",
+      id: "curadoria", name: "Curadoria", kind: "IA para seleção de executivos", live: true, url: "curadoria · executive search",
       short: "Pipeline de RAG que lê currículos e indica os três melhores candidatos para uma vaga de liderança em cerca de um minuto.",
       tags: ["RAG", "LangGraph", "ChromaDB", "GCP"],
       nums: [["~1 min", "por análise"], ["100%", "das citações conferidas"], ["0,90", "MRR da busca semântica"]],
