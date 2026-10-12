@@ -76,19 +76,45 @@
       stack: ["Python", "LangGraph", "Claude", "ChromaDB", "Pydantic", "GCP", "Terraform"],
       link: ["Ver código no GitHub", "https://github.com/Dbenas/Ex-search"],
     },
+    {
+      id: "governanca", group: "dados", name: "Governança de Dados", kind: "Gestora de ativos de um grande banco", live: true, liveLabel: "Em uso interno", url: "painel · governança de dados",
+      art: "sankey", note: "Imagem ilustrativa: os dados do cliente são sigilosos e não são exibidos.",
+      short: "Painéis que mostram de onde vêm, por onde passam e para onde vão os dados de uma gestora de ativos de grande banco.",
+      tags: ["Python", "pandas", "Regex", "SVG/JS"],
+      nums: [["2", "painéis interativos complementares"], ["Sankey", "linhagem origem → destino"], ["Automático", "atualização agendada e publicada"]],
+      challenge: "A gestora precisava enxergar como os dados circulam entre áreas e sistemas, mas a informação estava espalhada em formulários e planilhas preenchidos por cada área, em texto livre.",
+      solution: "Um pipeline em Python que lê as respostas, padroniza e categoriza cada origem, tratamento e destino, e gera dois painéis interativos com linhagem em Sankey, matriz área × sistema e a jornada completa de cada dado.",
+      results: ["Visão clara da linhagem dos dados por área e por sistema", "Contagens confiáveis, sem duplicidade nem categorias fragmentadas", "Atualização automatizada e agendada, publicada em pasta corporativa", "Painéis em uso interno, abrindo com um clique e funcionando offline"],
+      tech: ["Categorização canônica por regras (regex) sobre texto livre, contando cada resposta uma vez por categoria", "Leitura tolerante de colunas e tratamento de planilha real: células mescladas, limpeza e seleção automática da aba", "Gráficos próprios em SVG/JS: barras, rosca, Sankey interativo e a “trilha do dado” em linha do tempo serpenteada", "Gerador Python + template HTML com saída 100% autocontida; contagens validadas com Python e Node.js antes de publicar"],
+      stack: ["Python", "pandas", "Regex", "JavaScript", "SVG", "Power Automate", "Task Scheduler"],
+    },
   ];
 
+  const ribbon = (x1, a1, b1, x2, a2, b2, cls) => {
+    const m = (x1 + x2) / 2;
+    return `<path class="rb ${cls}" d="M${x1} ${a1} C${m} ${a1} ${m} ${a2} ${x2} ${a2} L${x2} ${b2} C${m} ${b2} ${m} ${b1} ${x1} ${b1}Z"/>`;
+  };
+  const ART = {
+    sankey: `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração de linhagem de dados: origens, tratamentos e destinos">
+      ${ribbon(84, 60, 100, 343, 70, 110, "a")}${ribbon(84, 100, 130, 343, 190, 220, "")}${ribbon(84, 150, 200, 343, 110, 160, "")}${ribbon(84, 220, 300, 343, 220, 300, "b")}
+      ${ribbon(357, 70, 120, 616, 50, 100, "a")}${ribbon(357, 120, 160, 616, 130, 175, "")}${ribbon(357, 190, 250, 616, 175, 220, "b")}${ribbon(357, 250, 300, 616, 240, 290, "a")}
+      <rect class="nd" x="70" y="60" width="14" height="70" rx="2"/><rect class="nd" x="70" y="150" width="14" height="50" rx="2"/><rect class="nd" x="70" y="220" width="14" height="80" rx="2"/>
+      <rect class="nd" x="343" y="70" width="14" height="100" rx="2"/><rect class="nd" x="343" y="190" width="14" height="110" rx="2"/>
+      <rect class="nd" x="616" y="50" width="14" height="50" rx="2"/><rect class="nd" x="616" y="130" width="14" height="90" rx="2"/><rect class="nd" x="616" y="240" width="14" height="50" rx="2"/>
+      <text x="77" y="332" text-anchor="middle">ORIGEM</text><text x="350" y="332" text-anchor="middle">TRATAMENTO</text><text x="623" y="332" text-anchor="middle">DESTINO</text>
+    </svg>`,
+  };
   const shot = (p, eager) => `
     <span class="shot"><span class="shot-frame">
       <span class="shot-bar"><i></i><i></i><i></i><span>${p.url}</span></span>
-      <img src="assets/projetos/${p.id}.webp" alt="Tela do ${p.name}" width="1400" height="700" ${eager ? "" : 'loading="lazy"'} decoding="async">
+      ${p.art ? ART[p.art] : `<img src="assets/projetos/${p.id}.webp" alt="Tela do ${p.name}" width="1400" height="700" ${eager ? "" : 'loading="lazy"'} decoding="async">`}
     </span></span>`;
+  const statusLabel = p => p.live ? (p.liveLabel || "Em produção") : p.status;
   const statusHtml = p => p.live
-    ? `<span class="status"><i class="dot" aria-hidden="true"></i>Em produção</span>`
+    ? `<span class="status"><i class="dot" aria-hidden="true"></i>${statusLabel(p)}</span>`
     : `<span class="status dev">${p.status}</span>`;
 
-  $("#projCount").textContent = PROJECTS.length;
-  $("#projects").innerHTML = PROJECTS.map((p, i) => `
+  const card = (p, i) => `
     <button class="proj reveal${i === 0 ? " featured" : ""}" type="button" data-id="${p.id}" aria-haspopup="dialog">
       ${shot(p, false)}
       <span class="proj-info">
@@ -98,7 +124,10 @@
         <span class="proj-tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</span>
         <span class="proj-more">Ver detalhes <span aria-hidden="true">→</span></span>
       </span>
-    </button>`).join("");
+    </button>`;
+  $("#projCount").textContent = PROJECTS.length;
+  $("#projects").innerHTML = PROJECTS.filter(p => p.group !== "dados").map(card).join("");
+  $("#projectsData").innerHTML = PROJECTS.filter(p => p.group === "dados").map(card).join("");
 
   /* ================= Painel do projeto ================= */
   const sheet = $("#sheet");
@@ -112,8 +141,9 @@
     body.innerHTML = `
       <div class="sheet-close"><span>Projeto · ${PROJECTS.indexOf(p) + 1}/${PROJECTS.length}</span><button class="sheet-x" type="button" data-close aria-label="Fechar">✕</button></div>
       ${shot(p, true)}
+      ${p.note ? `<p class="shot-note">${p.note}</p>` : ""}
       <div class="sheet-head">
-        <p class="eyebrow"><span>${p.kind}</span> · ${p.live ? "Em produção" : p.status}</p>
+        <p class="eyebrow"><span>${p.kind}</span> · ${statusLabel(p)}</p>
         <h2 id="sheetTitle">${p.name}</h2>
         <p>${p.short}</p>
       </div>
@@ -141,9 +171,9 @@
   sheet.addEventListener("close", () => trigger?.focus({ preventScroll: true }));
   sheet.addEventListener("cancel", e => { e.preventDefault(); closeSheet(); });
   sheet.addEventListener("click", e => { if (e.target === sheet || e.target.closest("[data-close]")) closeSheet(); });
-  $("#projects").addEventListener("click", e => {
-    const card = e.target.closest(".proj");
-    if (card) openProject(card.dataset.id, card);
+  $("#projetos").addEventListener("click", e => {
+    const el = e.target.closest(".proj");
+    if (el) openProject(el.dataset.id, el);
   });
 
   /* ================= Trajetória ================= */

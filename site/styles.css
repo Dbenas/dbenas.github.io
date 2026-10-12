@@ -355,3 +355,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .reveal { opacity: 1; transform: none; }
 }
 .sheet-head .eyebrow { display: block; line-height: 1.6; }
+
+/* Grupos de projetos e ilustração */
+.proj-group { display: flex; align-items: center; gap: 16px; margin: 0 0 20px; font: 500 12.5px var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--soft); }
+.proj-group::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
+.projects + .proj-group { margin-top: clamp(48px, 6vw, 72px); }
+.art { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; background: var(--surface-2); }
+.art .rb { fill: var(--soft); opacity: .16; transition: opacity .4s ease; }
+.art .rb.a { fill: var(--accent); opacity: .5; }
+.art .rb.b { fill: var(--text); opacity: .22; }
+.art .nd { fill: var(--text); }
+.art text { font: 500 11px var(--f-mono); letter-spacing: .12em; fill: var(--faint); }
+.proj:hover .art .rb.a { opacity: .7; }
+.shot-note { margin-top: 10px; font: 400 12.5px var(--f-mono); color: var(--faint); }
