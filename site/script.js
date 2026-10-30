@@ -65,6 +65,28 @@
       link: ["Visitar turinpdv.com.br", "https://www.turinpdv.com.br"],
     },
     {
+      id: "designa", name: "Designa Flow", kind: "Escalas e designações", live: true, url: "designa flow · app", art: "schedule",
+      short: "App instalável que organiza as escalas de dezenas de voluntários: cada pessoa vê as próprias tarefas no celular e recebe avisos automáticos.",
+      tags: ["React", "PostgreSQL", "PWA", "IA"],
+      nums: [["22", "telas no app"], ["31", "migrations com RLS e gatilhos"], ["185+", "commits"]],
+      challenge: "Uma organização comunitária mantinha várias escalas recorrentes em planilhas e PDFs repassados por mensagem, sem lembretes e sem visão de equilíbrio entre as pessoas.",
+      solution: "Um app instalável (PWA) onde os responsáveis montam as escalas manualmente, por regras automáticas ou com sugestão de IA, e cada participante vê as próprias designações, marca quando não pode e recebe notificações.",
+      results: ["Designação automática do mês inteiro, respeitando capacidades e indisponibilidades", "Uma notificação-resumo por pessoa, mais lembretes uma semana antes e na véspera", "6 modelos de PDF no padrão da organização e dashboard de carga por pessoa", "Implantação com vídeos tutoriais e 4 meses de histórico migrados dos PDFs"],
+      tech: ["Notificações orientadas a eventos: gatilhos no PostgreSQL e despachante que agrupa por pessoa", "Sugestões do Claude validadas contra as mesmas regras de negócio antes de aparecer, com custo visível", "Row Level Security em todas as tabelas, 8 papéis de acesso e operações administrativas só no servidor", "Pipeline em Python que lê os PDFs históricos e cruza nomes com correspondência aproximada"],
+      stack: ["React 19", "TypeScript", "TanStack", "Supabase", "PostgreSQL", "Web Push", "Claude", "Remotion"],
+    },
+    {
+      id: "copernico", name: "Copérnico", kind: "Assistente de voz com IA", live: true, liveLabel: "Em uso diário", url: "copérnico · assistente", art: "sphere",
+      short: "Assistente de voz em português, estilo Jarvis: você chama “Copérnico” e ele entende, executa e responde falando em cerca de 3 segundos.",
+      tags: ["Python", "Claude", "FastAPI", "Voz"],
+      nums: [["8,9s → 2,8s", "até o primeiro som da resposta"], ["25", "ferramentas que a IA pode usar"], ["149", "testes automatizados"]],
+      challenge: "Construir um assistente de voz útil de verdade no dia a dia, e não só uma demonstração: rápido, que entendesse voz baixa, não disparasse sozinho e fosse seguro com e-mail e casa inteligente.",
+      solution: "Um assistente que roda no PC com detecção de fala, ativação pelo nome, Claude com ferramentas e voz frase a frase, além de uma interface web com esfera de partículas 3D acessível de qualquer aparelho da casa.",
+      results: ["Clima, busca, Spotify, YouTube, lembretes, e-mail e luzes da casa por voz", "Resposta falada começando em ~2,8 s (antes eram 8,9 s)", "Custo médio abaixo de US$ 0,001 por pergunta", "Inicia com o Windows e fica em segundo plano"],
+      tech: ["Silero VAD, transcrição com Groq Whisper e reserva local, correspondência aproximada do nome", "Claude com loop de ferramentas, streaming, cache de prompt e interrupção pela voz", "Proteção contra prompt injection e SSRF; e-mail e mensagens somente leitura", "FastAPI + WebSocket e interface em canvas com 3.200 partículas"],
+      stack: ["Python", "Claude", "Groq Whisper", "Silero VAD", "FastAPI", "WebSocket", "SQLite"],
+    },
+    {
       id: "curadoria", name: "Curadoria", kind: "IA para seleção de executivos", live: true, url: "curadoria · executive search",
       short: "Pipeline de RAG que lê currículos e indica os três melhores candidatos para uma vaga de liderança em cerca de um minuto.",
       tags: ["RAG", "LangGraph", "ChromaDB", "GCP"],
@@ -75,6 +97,18 @@
       tech: ["Chunking por frase e embeddings multilíngues locais, com busca no ChromaDB e fusão RRF", "Benchmark próprio: busca híbrida 0,69 × semântica 0,90 de MRR, e o dado decidiu", "56 testes automatizados, incluindo auditoria de viés", "Infraestrutura no GCP com Terraform e CI no GitHub Actions"],
       stack: ["Python", "LangGraph", "Claude", "ChromaDB", "Pydantic", "GCP", "Terraform"],
       link: ["Ver código no GitHub", "https://github.com/Dbenas/Ex-search"],
+    },
+    {
+      id: "retencao", group: "dados", name: "Retenção com Movimentação", kind: "Telecom · Ciência de dados", live: true, liveLabel: "Entregue", url: "notebook · retenção telecom",
+      art: "lift", note: "Imagem ilustrativa: os dados do cliente são sigilosos e não são exibidos.",
+      short: "Modelo que identifica quais clientes, ao pedir cancelamento, aceitam trocar de produto para continuar na operadora, sem destruir receita.",
+      tags: ["Python", "LightGBM", "SHAP", "Inferência causal"],
+      nums: [["~2x", "taxa de troca no decil de maior escore"], ["~3x", "ganho real da ferramenta de ofertas"], ["0,69", "AUC com validação temporal"]],
+      challenge: "A área de retenção tentava manter clientes que ligavam para cancelar, mas não sabia quem aceitaria trocar de produto nem quanto cada retenção custava em receita. E o indicador oficial superestimava o sucesso.",
+      solution: "Um estudo completo: validação da base, uma variável nova de negócio (sobrepreço), modelos preditivos interpretáveis, perfis em regras legíveis, inferência causal para avaliar a ferramenta de ofertas e um dashboard com simulador de atendimento.",
+      results: ["O “sobrepreço”, variável criada a partir de uma hipótese de negócio, virou a mais importante do modelo", "Mostrou que retenção marcada no sistema não é o mesmo que receita preservada", "Quatro perfis de cliente, cada um com uma abordagem de oferta recomendada", "Ganho da ferramenta de recomendação ~3x maior do que a comparação direta indicava"],
+      tech: ["Validação temporal e regra contra vazamento: só entram variáveis conhecidas na entrada do funil", "Regressão logística para interpretação e LightGBM com SHAP; avaliação por AUC, lift por decil e calibração", "Inferência causal com escore de propensão (IPW), ATT/ATC, balanceamento e bootstrap", "Dashboard Streamlit com 6 abas só com dados agregados, incluindo simulador com explicação SHAP individual"],
+      stack: ["Python", "pandas", "scikit-learn", "LightGBM", "SHAP", "Plotly", "Streamlit"],
     },
     {
       id: "governanca", group: "dados", name: "Governança de Dados", kind: "Gestora de ativos de um grande banco", live: true, liveLabel: "Em uso interno", url: "painel · governança de dados",
@@ -116,7 +150,45 @@
       ${rows}<line class="meta" x1="${meta}" y1="26" x2="${meta}" y2="318"/><text x="${meta}" y="18" text-anchor="middle">META</text>
       <text x="350" y="340" text-anchor="middle">% DA META POR UNIDADE</text></svg>`;
   };
+  const liftArt = () => {
+    const hs = [38, 52, 64, 78, 92, 108, 126, 150, 182, 226], avg = 300 - 112;
+    const bars = hs.map((h, i) => {
+      const x = 92 + i * 54;
+      return `<rect class="bar${i >= 8 ? " a" : ""}" x="${x}" y="${300 - h}" width="36" height="${h}" rx="3"/><text x="${x + 18}" y="318" text-anchor="middle">D${i + 1}</text>`;
+    }).join("");
+    return `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração: taxa de troca por decil de escore do modelo">
+      ${bars}<line class="meta" x1="80" y1="${avg}" x2="640" y2="${avg}"/><text x="646" y="${avg + 4}">MÉDIA</text>
+      <text x="350" y="342" text-anchor="middle">TAXA DE TROCA POR DECIL DE ESCORE</text></svg>`;
+  };
+  const scheduleArt = () => {
+    const days = ["SEG", "TER", "QUA", "QUI", "SEX", "SÁB", "DOM"];
+    const fill = ["f.....g", "..g.f..", ".f...g.", "g..f..f", "...g.f."];
+    let cells = days.map((d, c) => `<text x="${108 + c * 82}" y="48" text-anchor="middle">${d}</text>`).join("");
+    fill.forEach((row, r) => [...row].forEach((k, c) => {
+      const x = 72 + c * 82, y = 62 + r * 52;
+      cells += `<rect class="cell${k === "f" ? " f" : k === "g" ? " g" : ""}" x="${x}" y="${y}" width="72" height="42" rx="6"/>`;
+      if (k !== ".") cells += `<rect class="cell-ln" x="${x + 10}" y="${y + 12}" width="40" height="5" rx="2.5"/><rect class="cell-ln" x="${x + 10}" y="${y + 24}" width="26" height="5" rx="2.5"/>`;
+    }));
+    return `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração: escala semanal com designações">${cells}</svg>`;
+  };
+  const sphereArt = () => {
+    const n = 420, pts = [], g = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < n; i++) {
+      const y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), t = g * i;
+      const x = Math.cos(t) * r, z = Math.sin(t) * r;
+      const rx = x * Math.cos(0.5) + z * Math.sin(0.5), rz = -x * Math.sin(0.5) + z * Math.cos(0.5);
+      const ty = y * Math.cos(0.35) - rz * Math.sin(0.35), tz = y * Math.sin(0.35) + rz * Math.cos(0.35);
+      pts.push([350 + rx * 125, 165 + ty * 125, tz]);
+    }
+    pts.sort((a, b) => a[2] - b[2]);
+    const dots = pts.map(([x, y, z], i) => `<circle class="pt${z > 0.55 && i % 3 === 0 ? " a" : ""}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(1.1 + (z + 1) * 1.1).toFixed(2)}" opacity="${(0.18 + (z + 1) * 0.38).toFixed(2)}"/>`).join("");
+    return `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração: esfera de partículas da interface do assistente">
+      <circle class="orbit" cx="350" cy="165" r="150"/>${dots}<text x="350" y="338" text-anchor="middle">COPÉRNICO · OUVINDO</text></svg>`;
+  };
   const ART = {
+    lift: liftArt(),
+    schedule: scheduleArt(),
+    sphere: sphereArt(),
     bars: barsArt(),
     sankey: `<svg class="art" viewBox="0 0 700 350" role="img" aria-label="Ilustração de linhagem de dados: origens, tratamentos e destinos">
       ${ribbon(84, 60, 100, 343, 70, 110, "a")}${ribbon(84, 100, 130, 343, 190, 220, "")}${ribbon(84, 150, 200, 343, 110, 160, "")}${ribbon(84, 220, 300, 343, 220, 300, "b")}

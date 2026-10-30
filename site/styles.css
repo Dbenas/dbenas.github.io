@@ -371,3 +371,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .art .bar { fill: var(--text); opacity: .2; }
 .art .bar.a { fill: var(--accent); opacity: .75; }
 .art .meta { stroke: var(--text); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .6; }
+.art .cell { fill: var(--text); opacity: .06; }
+.art .cell.f { fill: var(--accent); opacity: .7; }
+.art .cell.g { fill: var(--text); opacity: .22; }
+.art .cell-ln { fill: var(--surface); opacity: .85; }
+.art .pt { fill: var(--text); }
+.art .pt.a { fill: var(--accent); }
+.art .orbit { fill: none; stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 2 6; }
